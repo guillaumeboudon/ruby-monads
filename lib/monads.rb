@@ -1,2 +1,3 @@
-module Monads
-end
+require_relative "monads/maybe"
+
+include Monads
