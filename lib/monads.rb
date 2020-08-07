@@ -1,3 +1,3 @@
-require_relative "monads/maybe"
+require_relative "monads/monad"
 
-include Monads
+require_relative "monads/maybe"
