@@ -58,3 +58,11 @@ These gems, and many others are really great, and it was very instructive to lea
 - _Minimalist:_ as simple an lightweight as possible
 - _Respectful of uses:_ respectful of the usual terms ([Monad (functional programming)](https://en.wikipedia.org/wiki/Monad_(functional_programming))), like `Maybe`, `unit`, `bind`, `join`, etc.
 - _Vanilla Ruby syntax:_ I love some of the abstractions I discovered (`>=` operator, `Just(value)` syntax). However, I also love vanilla Ruby. So, I wanted to target new methods and abstractions, not new syntaxes comming from other languages.
+
+## Tests
+
+Test suite uses [cutest](https://github.com/djanowski/cutest). You can execute it with:
+
+```sh
+make
+```

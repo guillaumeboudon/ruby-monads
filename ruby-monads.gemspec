@@ -9,4 +9,6 @@ Gem::Specification.new do |s|
   s.license = "MIT"
 
   s.files = `git ls-files`.split("\n")
+
+  s.add_development_dependency "cutest", "~> 1.2", ">= 1.2.3"
 end
