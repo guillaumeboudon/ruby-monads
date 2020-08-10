@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "ruby-monads"
-  s.version = "0.1.0"
+  s.version = "0.2.0"
   s.summary = "Some common monads"
   s.description = "Simple and minimalist ruby implementation of some common monads"
   s.author = "Guillaume BOUDON"
