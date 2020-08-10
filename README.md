@@ -30,20 +30,41 @@ The maybe monad returns one of the following classes, wether it wraps a value or
 #### Examples
 
 ```ruby
-just = Maybe.unit("Hello, World!")     # => #<Monads::Just @value="Hello, World!">
-nothing = Maybe.unit(nil)              # => #<Monads::Nothing>
+Maybe.unit("Hello, World!")                                # => #<Monads::Just @value="Hello, World!">
+Maybe.unit(nil)                                            # => #<Monads::Nothing>
 
-just.upcase                            # => #<Monads::Just @value="HELLO, WORLD!">
-just.upcase.split.unwrap([])           # => ["HELLO,", "WORLD!"]
-just.bind { |v| Maybe.unit(nil) }      # => #<Monads::Nothing>
-just.fmap { |v| v.gsub(/\w/, "*") }    # => #<Monads::Just @value="*****, *****!">
-Maybe.unit(just).join                  # => #<Monads::Just @value="Hello, World!">
+Maybe.unit("Hello, World!").upcase                         # => #<Monads::Just @value="HELLO, WORLD!">
+Maybe.unit("Hello, World!").upcase.split.unwrap([])        # => ["HELLO,", "WORLD!"]
+Maybe.unit("Hello, World!").bind { |v| Maybe.unit(nil) }   # => #<Monads::Nothing>
+Maybe.unit("Hello, World!").fmap { |v| v.gsub(/\w/, "*") } # => #<Monads::Just @value="*****, *****!">
+Maybe.unit(Maybe.unit("Hello, World!")).join               # => #<Monads::Just @value="Hello, World!">
 
-nothing.upcase                         # => #<Monads::Nothing>
-nothing.upcase.split.unwrap([])        # => []
-nothing.bind { |v| just }              # => #<Monads::Nothing>
-nothing.fmap { |v| v.gsub(/\w/, "*") } # => #<Monads::Nothing>
-Maybe.unit(nothing).join               # => #<Monads::Nothing>
+Maybe.unit(nil).upcase                                     # => #<Monads::Nothing>
+Maybe.unit(nil).upcase.split.unwrap([])                    # => []
+Maybe.unit(nil).bind { |v| Maybe.unit("Hello, World!") }   # => #<Monads::Maybe.unit(nil)>
+Maybe.unit(nil).fmap { |v| v.gsub(/\w/, "*") }             # => #<Monads::Nothing>
+Maybe.unit(Maybe.unit(nil)).join                           # => #<Monads::Nothing>
+```
+
+### Result
+
+The result monad returns one of the following classes, wether it wraps an error or not:
+
+- `Result.unit(42)` returns an instance of `Success` wrapping the `42` value
+- `Result.unit(StandardError.new)` returns an instance of `Failure` wrapping the given error
+
+#### Examples
+
+```ruby
+Result.unit("Hello, World!")             # => #<Monads::Success @value="Hello, World!">
+Result.unit(StandardError.new("Wrong!")) # => #<Monads::Failure @value=#<StandardError: Wrong!>>
+
+Result
+  .unit("Hello, World!")                 # => #<Monads::Success @value="Hello, World!">
+  .upcase                                # => #<Monads::Success @value="HELLO, WORLD!">
+  .even                                  # => #<Monads::Failure @value=#<NoMethodError: undefined method `even?' for "HELLO, WORLD!":String>>
+  .split                                 # => #<Monads::Failure @value=#<NoMethodError: undefined method `even?' for "HELLO, WORLD!":String>>
+  .unwrap("default")                     # "default"
 ```
 
 ## Why this gem
