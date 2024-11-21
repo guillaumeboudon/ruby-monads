@@ -14,7 +14,7 @@ test "Result::new" do
   assert Failure.new(StandardError.new).is_a?(Failure)
 end
 
-test "Result::unit" do |success, failure|
+test "Result::wrap" do |success, failure|
   assert success.is_a?(Result)
   assert success.is_a?(Success)
   assert !success.is_a?(Failure)
@@ -23,17 +23,17 @@ test "Result::unit" do |success, failure|
   assert !failure.is_a?(Success)
   assert failure.is_a?(Failure)
 
-  assert Result.unit(success).is_a?(Success)
-  assert Result.unit(failure).is_a?(Failure)
+  assert Result.wrap(success).is_a?(Success)
+  assert Result.wrap(failure).is_a?(Failure)
 end
 
 test "Result#bind" do |success, failure|
-  assert success.bind { |v| Result.unit(v / 2) }.is_a?(Success)
-  assert success.bind { |v| Result.unit(v / 0) }.is_a?(Failure)
+  assert success.bind { |v| Result.wrap(v / 2) }.is_a?(Success)
+  assert success.bind { |v| Result.wrap(v / 0) }.is_a?(Failure)
   assert success.bind { |v| v / 0 }.is_a?(Failure)
 
-  assert failure.bind { |v| Result.unit(42) }.is_a?(Failure)
-  assert failure.bind { |v| Result.unit(StandardError.new) }.is_a?(Failure)
+  assert failure.bind { |v| Result.wrap(42) }.is_a?(Failure)
+  assert failure.bind { |v| Result.wrap(StandardError.new) }.is_a?(Failure)
   assert failure.bind { |v| v / 2 }.is_a?(Failure)
 end
 
@@ -46,8 +46,8 @@ test "Result#fmap" do |success, failure|
 end
 
 test "Result#join" do |success, failure|
-  assert_equal Result.unit(success).join.unwrap("default"), 42
-  assert_equal Result.unit(failure).join.unwrap("default"), "default"
+  assert_equal Result.wrap(success).join.unwrap("default"), 42
+  assert_equal Result.wrap(failure).join.unwrap("default"), "default"
 end
 
 test "Result#unwrap" do |success, failure|

@@ -1,7 +1,7 @@
 print "\n\"Maybe\" monad test suite"
 
 setup do
-  [Maybe.unit("Hello, World!"), Maybe.unit(nil)]
+  [Maybe.wrap("Hello, World!"), Maybe.wrap(nil)]
 end
 
 test "Maybe::new" do
@@ -14,7 +14,7 @@ test "Maybe::new" do
   assert Nothing.new.is_a?(Nothing)
 end
 
-test "Maybe::unit" do |just, nothing|
+test "Maybe::wrap" do |just, nothing|
   assert just.is_a?(Maybe)
   assert just.is_a?(Just)
   assert !just.is_a?(Nothing)
@@ -23,17 +23,17 @@ test "Maybe::unit" do |just, nothing|
   assert !nothing.is_a?(Just)
   assert nothing.is_a?(Nothing)
 
-  assert Maybe.unit(just).is_a?(Just)
-  assert Maybe.unit(nothing).is_a?(Nothing)
+  assert Maybe.wrap(just).is_a?(Just)
+  assert Maybe.wrap(nothing).is_a?(Nothing)
 end
 
 test "Maybe#bind" do |just, nothing|
-  assert just.bind { |v| Maybe.unit(v.to_sym) }.is_a?(Just)
-  assert just.bind { |v| Maybe.unit(nil) }.is_a?(Nothing)
+  assert just.bind { |v| Maybe.wrap(v.to_sym) }.is_a?(Just)
+  assert just.bind { |v| Maybe.wrap(nil) }.is_a?(Nothing)
   assert_raise TypeError do just.bind { |v| v.to_sym } end
 
-  assert nothing.bind { |v| Maybe.unit(42) }.is_a?(Nothing)
-  assert nothing.bind { |v| Maybe.unit(nil) }.is_a?(Nothing)
+  assert nothing.bind { |v| Maybe.wrap(42) }.is_a?(Nothing)
+  assert nothing.bind { |v| Maybe.wrap(nil) }.is_a?(Nothing)
   assert nothing.bind { |v| v.to_sym }.is_a?(Nothing)
 end
 
@@ -46,8 +46,8 @@ test "Maybe#fmap" do |just, nothing|
 end
 
 test "Maybe#join" do |just, nothing|
-  assert_equal Maybe.unit(just).join.unwrap("default"), "Hello, World!"
-  assert_equal Maybe.unit(nothing).join.unwrap("default"), "default"
+  assert_equal Maybe.wrap(just).join.unwrap("default"), "Hello, World!"
+  assert_equal Maybe.wrap(nothing).join.unwrap("default"), "default"
 end
 
 test "Maybe#unwrap" do |just, nothing|

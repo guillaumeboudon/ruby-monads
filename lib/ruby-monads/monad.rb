@@ -13,14 +13,14 @@ module Monads
     # fmap :: (a -> b) -> M a -> M b
     def fmap(&block)
       bind do |value|
-        self.class.unit(block.call(value))
+        self.class.wrap(block.call(value))
       end
     end
 
     # join :: M (M a) -> M a
     def join
       value = @value.is_a?(monad_type) ? @value.unwrap(nil) : @value
-      monad_type.unit(value)
+      monad_type.wrap(value)
     end
 
     def method_missing(method, *args, &block)

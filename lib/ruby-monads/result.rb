@@ -4,8 +4,8 @@ module Monads
 
     FAILURE_TRIGGER = StandardError
 
-    # unit :: a -> M a
-    def self.unit(value)
+    # wrap :: a -> M a
+    def self.wrap(value)
       if value.is_a?(FAILURE_TRIGGER) || value.is_a?(Failure)
         Failure.new(value)
       else

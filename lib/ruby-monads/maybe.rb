@@ -2,9 +2,9 @@ module Monads
   class Maybe
     include Monads::Monad
 
-    # unit :: a -> M a
-    def self.unit(value)
-      value.nil? || value.is_a?(Nothing) ? Nothing.new : Just.new(value)
+    # wrap :: a -> M a
+    def self.wrap(value)
+      (value.nil? || value.is_a?(Nothing)) ? Nothing.new : Just.new(value)
     end
 
     # bind :: (a -> M b) -> M a -> M b
