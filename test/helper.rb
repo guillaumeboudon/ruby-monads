@@ -1,3 +1,3 @@
-require_relative "../lib/monads"
+require_relative "../lib/ruby-monads"
 
 include Monads
