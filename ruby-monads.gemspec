@@ -11,4 +11,6 @@ Gem::Specification.new do |s|
   s.files = `git ls-files`.split("\n")
 
   s.add_development_dependency "cutest", "~> 1.2", ">= 1.2.3"
+  s.add_development_dependency "rubocop", "~> 1", ">= 1.68"
+  s.add_development_dependency "standard", "~> 1.42", ">= 1.42.1"
 end
